@@ -47,6 +47,25 @@ pub fn gen_super_circuit<
     Ok(circuit)
 }
 
+pub trait InstancesExport {
+    fn num_instance() -> Vec<usize>;
+
+    fn instances(&self) -> Vec<Vec<Fr>>;
+}
+
+impl<const MAX_TXS: usize, const MAX_CALLDATA: usize> InstancesExport
+    for PiTestCircuit<Fr, MAX_TXS, MAX_CALLDATA>
+{
+    fn num_instance() -> Vec<usize> {
+        vec![5]
+    }
+
+    fn instances(&self) -> Vec<Vec<Fr>> {
+        // vec![vec![self.0]]
+        self.0.instance()
+    }
+}
+
 /// Returns a instance of the `PiTestCircuit`.
 pub fn gen_pi_circuit<
     const MAX_TXS: usize,

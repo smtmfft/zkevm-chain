@@ -1,6 +1,6 @@
-use crate::aggregation_circuit::AggregationCircuit;
-use crate::aggregation_circuit::PoseidonTranscript;
-use crate::aggregation_circuit::Snark;
+use crate::aggregation_circuit::aggregation::AggregationCircuit;
+use crate::aggregation_circuit::aggregation::PoseidonTranscript;
+use crate::aggregation_circuit::aggregation::Snark;
 use crate::circuit_witness::CircuitWitness;
 use crate::circuits::*;
 use crate::utils::collect_instance;
@@ -16,10 +16,10 @@ use halo2_proofs::plonk::Circuit;
 use halo2_proofs::plonk::{keygen_pk, keygen_vk};
 use halo2_proofs::poly::commitment::Params;
 use hyper::Uri;
-use plonk_verifier::loader::native::NativeLoader;
-use plonk_verifier::system::halo2::compile;
-use plonk_verifier::system::halo2::transcript::evm::EvmTranscript;
-use plonk_verifier::system::halo2::Config as PlonkConfig;
+use snark_verifier::loader::native::NativeLoader;
+use snark_verifier::system::halo2::compile;
+use snark_verifier::system::halo2::transcript::evm::EvmTranscript;
+use snark_verifier::system::halo2::Config as PlonkConfig;
 use rand::{thread_rng, Rng};
 use std::collections::HashMap;
 use std::fmt::Write;
@@ -31,6 +31,7 @@ use tokio::sync::Mutex;
 use zkevm_circuits::util::SubCircuit;
 use zkevm_common::json_rpc::jsonrpc_request_client;
 use zkevm_common::prover::*;
+use crate::circuits::InstancesExport;
 
 fn get_param_path(path: &String, k: usize) -> String {
     // try to automatically choose a file if the path ends with a `/`.
@@ -92,8 +93,8 @@ macro_rules! gen_proof {
                 _,
             >(&witness, fixed_rng())?;
             circuit_proof.k = CIRCUIT_CONFIG.min_k as u8;
-            circuit_proof.instance = collect_instance(&circuit.instance());
-            let prover = MockProver::run(CIRCUIT_CONFIG.min_k as u32, &circuit, circuit.instance())
+            circuit_proof.instance = collect_instance(&circuit.instances());
+            let prover = MockProver::run(CIRCUIT_CONFIG.min_k as u32, &circuit, circuit.instances())
                 .expect("MockProver::run");
             prover.verify_par().expect("MockProver::verify_par");
             circuit_proof.duration = Instant::now().duration_since(time_started).as_millis() as u32;
@@ -118,7 +119,7 @@ macro_rules! gen_proof {
                     .map_err(|e| e.to_string())?
             };
 
-            let circuit_instance = circuit.instance();
+            let circuit_instance = circuit.instances();
             circuit_proof.instance = collect_instance(&circuit_instance);
 
             if task_options.aggregate {
@@ -155,7 +156,7 @@ macro_rules! gen_proof {
                     get_or_gen_param(&task_options, CIRCUIT_CONFIG.min_k_aggregation);
                 aggregation_proof.k = agg_params.k() as u8;
                 let agg_circuit =
-                    AggregationCircuit::new(agg_params.as_ref(), [snark], fixed_rng());
+                    AggregationCircuit::new(agg_params.as_ref(), [snark]);
                 let agg_pk = {
                     let cache_key = format!(
                         "{}{}{:?}ag",
@@ -166,7 +167,7 @@ macro_rules! gen_proof {
                         .await
                         .map_err(|e| e.to_string())?
                 };
-                let agg_instance = agg_circuit.instance();
+                let agg_instance = agg_circuit.instances();
                 aggregation_proof.instance = collect_instance(&agg_instance);
                 let proof = gen_proof::<
                     _,
@@ -385,44 +386,44 @@ impl SharedState {
                             "pi" => {
                                 gen_proof!(self_copy, task_options_copy, &witness, gen_pi_circuit)
                             }
-                            "super" => {
-                                gen_proof!(
-                                    self_copy,
-                                    task_options_copy,
-                                    &witness,
-                                    gen_super_circuit
-                                )
-                            }
-                            "evm" => {
-                                gen_proof!(self_copy, task_options_copy, &witness, gen_evm_circuit)
-                            }
-                            "state" => gen_proof!(
-                                self_copy,
-                                task_options_copy,
-                                &witness,
-                                gen_state_circuit
-                            ),
-                            "tx" => {
-                                gen_proof!(self_copy, task_options_copy, &witness, gen_tx_circuit)
-                            }
-                            "bytecode" => gen_proof!(
-                                self_copy,
-                                task_options_copy,
-                                &witness,
-                                gen_bytecode_circuit
-                            ),
-                            "copy" => {
-                                gen_proof!(self_copy, task_options_copy, &witness, gen_copy_circuit)
-                            }
-                            "exp" => {
-                                gen_proof!(self_copy, task_options_copy, &witness, gen_exp_circuit)
-                            }
-                            "keccak" => gen_proof!(
-                                self_copy,
-                                task_options_copy,
-                                &witness,
-                                gen_keccak_circuit
-                            ),
+                            // "super" => {
+                            //     gen_proof!(
+                            //         self_copy,
+                            //         task_options_copy,
+                            //         &witness,
+                            //         gen_super_circuit
+                            //     )
+                            // }
+                            // "evm" => {
+                            //     gen_proof!(self_copy, task_options_copy, &witness, gen_evm_circuit)
+                            // }
+                            // "state" => gen_proof!(
+                            //     self_copy,
+                            //     task_options_copy,
+                            //     &witness,
+                            //     gen_state_circuit
+                            // ),
+                            // "tx" => {
+                            //     gen_proof!(self_copy, task_options_copy, &witness, gen_tx_circuit)
+                            // }
+                            // "bytecode" => gen_proof!(
+                            //     self_copy,
+                            //     task_options_copy,
+                            //     &witness,
+                            //     gen_bytecode_circuit
+                            // ),
+                            // "copy" => {
+                            //     gen_proof!(self_copy, task_options_copy, &witness, gen_copy_circuit)
+                            // }
+                            // "exp" => {
+                            //     gen_proof!(self_copy, task_options_copy, &witness, gen_exp_circuit)
+                            // }
+                            // "keccak" => gen_proof!(
+                            //     self_copy,
+                            //     task_options_copy,
+                            //     &witness,
+                            //     gen_keccak_circuit
+                            // ),
                             _ => panic!("unknown circuit"),
                         }
                     },

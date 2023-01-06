@@ -16,11 +16,11 @@ dependencies = [
 
 [[package]]
 name = "ahash"
-version = "0.7.6"
+version = "0.8.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fcb51a0695d8f838b1ee009b3fbf66bda078cd64590202a864a8f3e8c4315c47"
+checksum = "bf6ccdb167abbf410dcb915cabd428929d7f6a04980b54a11f26a39f1c7f7107"
 dependencies = [
- "getrandom",
+ "cfg-if",
  "once_cell",
  "version_check",
 ]
@@ -279,7 +279,7 @@ checksum = "572f695136211188308f16ad2ca5c851a712c464060ae6974944458eb83880ba"
 [[package]]
 name = "bus-mapping"
 version = "0.1.0"
-source = "git+https://github.com/pinkiebell/zkevm-circuits.git?branch=zkevm-chain#3c6cd775d23b44322da4085b6065b2d70c246cfa"
+source = "git+https://github.com/smtmfft/zkevm-circuits.git?branch=feature/root-circuit#124d9cc02fb9746b24800a067cfa3c9231d40094"
 dependencies = [
  "eth-types",
  "ethers-core",
@@ -774,24 +774,10 @@ dependencies = [
 [[package]]
 name = "ecc"
 version = "0.1.0"
-source = "git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_09_09#2d708b4453387f03059aad68d6d87441db112a2f"
-dependencies = [
- "group",
- "integer 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_09_09)",
- "num-bigint",
- "num-integer",
- "num-traits",
- "rand",
- "subtle",
-]
-
-[[package]]
-name = "ecc"
-version = "0.1.0"
 source = "git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_10_22#63bde545d934e69c806ef9bc8b18f03f6ec0fe8e"
 dependencies = [
  "group",
- "integer 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_10_22)",
+ "integer",
  "num-bigint",
  "num-integer",
  "num-traits",
@@ -802,9 +788,9 @@ dependencies = [
 [[package]]
 name = "ecdsa"
 version = "0.1.0"
-source = "git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_09_09#2d708b4453387f03059aad68d6d87441db112a2f"
+source = "git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_10_22#63bde545d934e69c806ef9bc8b18f03f6ec0fe8e"
 dependencies = [
- "ecc 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_09_09)",
+ "ecc",
  "group",
  "num-bigint",
  "num-integer",
@@ -898,7 +884,7 @@ dependencies = [
 [[package]]
 name = "eth-types"
 version = "0.1.0"
-source = "git+https://github.com/pinkiebell/zkevm-circuits.git?branch=zkevm-chain#3c6cd775d23b44322da4085b6065b2d70c246cfa"
+source = "git+https://github.com/smtmfft/zkevm-circuits.git?branch=feature/root-circuit#124d9cc02fb9746b24800a067cfa3c9231d40094"
 dependencies = [
  "ethers-core",
  "ethers-signers",
@@ -944,7 +930,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "11da94e443c60508eb62cf256243a64da87304c2802ac2528847f79d750007ef"
 dependencies = [
  "crunchy",
- "fixed-hash",
+ "fixed-hash 0.7.0",
  "impl-rlp",
  "impl-serde",
  "tiny-keccak",
@@ -957,10 +943,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b2827b94c556145446fcce834ca86b7abf0c39a805883fe20e72c5bfdb5a0dc6"
 dependencies = [
  "ethbloom",
- "fixed-hash",
+ "fixed-hash 0.7.0",
  "impl-rlp",
  "impl-serde",
- "primitive-types",
+ "primitive-types 0.11.1",
  "uint",
 ]
 
@@ -1052,7 +1038,7 @@ dependencies = [
 [[package]]
 name = "external-tracer"
 version = "0.1.0"
-source = "git+https://github.com/pinkiebell/zkevm-circuits.git?branch=zkevm-chain#3c6cd775d23b44322da4085b6065b2d70c246cfa"
+source = "git+https://github.com/smtmfft/zkevm-circuits.git?branch=feature/root-circuit#124d9cc02fb9746b24800a067cfa3c9231d40094"
 dependencies = [
  "eth-types",
  "geth-utils",
@@ -1107,6 +1093,18 @@ name = "fixed-hash"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cfcf0ed7fe52a17a03854ec54a9f76d6d84508d1c0e66bc1793301c73fc8493c"
+dependencies = [
+ "byteorder",
+ "rand",
+ "rustc-hex",
+ "static_assertions",
+]
+
+[[package]]
+name = "fixed-hash"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "835c052cb0c08c1acf6ffd71c022172e18723949c8282f2b9f27efbc51e64534"
 dependencies = [
  "byteorder",
  "rand",
@@ -1242,7 +1240,7 @@ dependencies = [
 [[package]]
 name = "gadgets"
 version = "0.1.0"
-source = "git+https://github.com/pinkiebell/zkevm-circuits.git?branch=zkevm-chain#3c6cd775d23b44322da4085b6065b2d70c246cfa"
+source = "git+https://github.com/smtmfft/zkevm-circuits.git?branch=feature/root-circuit#124d9cc02fb9746b24800a067cfa3c9231d40094"
 dependencies = [
  "digest 0.7.6",
  "eth-types",
@@ -1282,9 +1280,11 @@ dependencies = [
 [[package]]
 name = "geth-utils"
 version = "0.1.0"
-source = "git+https://github.com/pinkiebell/zkevm-circuits.git?branch=zkevm-chain#3c6cd775d23b44322da4085b6065b2d70c246cfa"
+source = "git+https://github.com/smtmfft/zkevm-circuits.git?branch=feature/root-circuit#124d9cc02fb9746b24800a067cfa3c9231d40094"
 dependencies = [
+ "env_logger",
  "gobuild",
+ "log",
 ]
 
 [[package]]
@@ -1356,7 +1356,7 @@ dependencies = [
 [[package]]
 name = "halo2_proofs"
 version = "0.2.0"
-source = "git+https://github.com/pinkiebell/halo2.git?rev=5fc8ce89ef3235d8eefeb8994173ac706e89e4ec#5fc8ce89ef3235d8eefeb8994173ac706e89e4ec"
+source = "git+https://github.com/smtmfft/halo2.git?rev=5fc8ce89ef3235d8eefeb8994173ac706e89e4ec#5fc8ce89ef3235d8eefeb8994173ac706e89e4ec"
 dependencies = [
  "blake2b_simd",
  "ff",
@@ -1387,18 +1387,6 @@ dependencies = [
 [[package]]
 name = "halo2wrong"
 version = "0.1.0"
-source = "git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_09_09#2d708b4453387f03059aad68d6d87441db112a2f"
-dependencies = [
- "group",
- "halo2_proofs 0.2.0",
- "num-bigint",
- "num-integer",
- "num-traits",
-]
-
-[[package]]
-name = "halo2wrong"
-version = "0.1.0"
 source = "git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_10_22#63bde545d934e69c806ef9bc8b18f03f6ec0fe8e"
 dependencies = [
  "group",
@@ -1413,6 +1401,12 @@ name = "hashbrown"
 version = "0.12.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8a9ee70c43aaf417c914396645a0fa852624801b24ebb7ae78fe8272889ac888"
+
+[[package]]
+name = "hashbrown"
+version = "0.13.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "33ff8ae62cd3a9102e5637afc8452c55acf3844001bd5374e0b0bd7b6616c038"
 dependencies = [
  "ahash",
 ]
@@ -1639,7 +1633,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "10a35a97730320ffe8e2d410b5d3b69279b98d2c14bdb8b70ea89ecf7888d41e"
 dependencies = [
  "autocfg",
- "hashbrown",
+ "hashbrown 0.12.3",
  "serde",
 ]
 
@@ -1658,24 +1652,10 @@ dependencies = [
 [[package]]
 name = "integer"
 version = "0.1.0"
-source = "git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_09_09#2d708b4453387f03059aad68d6d87441db112a2f"
-dependencies = [
- "group",
- "maingate 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_09_09)",
- "num-bigint",
- "num-integer",
- "num-traits",
- "rand",
- "subtle",
-]
-
-[[package]]
-name = "integer"
-version = "0.1.0"
 source = "git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_10_22#63bde545d934e69c806ef9bc8b18f03f6ec0fe8e"
 dependencies = [
  "group",
- "maingate 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_10_22)",
+ "maingate",
  "num-bigint",
  "num-integer",
  "num-traits",
@@ -1735,12 +1715,14 @@ checksum = "f9b7d56ba4a8344d6be9729995e6b06f928af29998cdf79fe390cbf6b1fee838"
 [[package]]
 name = "keccak256"
 version = "0.1.0"
-source = "git+https://github.com/pinkiebell/zkevm-circuits.git?branch=zkevm-chain#3c6cd775d23b44322da4085b6065b2d70c246cfa"
+source = "git+https://github.com/smtmfft/zkevm-circuits.git?branch=feature/root-circuit#124d9cc02fb9746b24800a067cfa3c9231d40094"
 dependencies = [
+ "env_logger",
  "eth-types",
  "halo2_proofs 0.1.0",
  "itertools",
  "lazy_static",
+ "log",
  "num-bigint",
  "num-traits",
 ]
@@ -1839,24 +1821,10 @@ dependencies = [
 [[package]]
 name = "maingate"
 version = "0.1.0"
-source = "git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_09_09#2d708b4453387f03059aad68d6d87441db112a2f"
-dependencies = [
- "group",
- "halo2wrong 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_09_09)",
- "num-bigint",
- "num-integer",
- "num-traits",
- "rand",
- "subtle",
-]
-
-[[package]]
-name = "maingate"
-version = "0.1.0"
 source = "git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_10_22#63bde545d934e69c806ef9bc8b18f03f6ec0fe8e"
 dependencies = [
  "group",
- "halo2wrong 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_10_22)",
+ "halo2wrong",
  "num-bigint",
  "num-integer",
  "num-traits",
@@ -1900,7 +1868,7 @@ dependencies = [
 [[package]]
 name = "mock"
 version = "0.1.0"
-source = "git+https://github.com/pinkiebell/zkevm-circuits.git?branch=zkevm-chain#3c6cd775d23b44322da4085b6065b2d70c246cfa"
+source = "git+https://github.com/smtmfft/zkevm-circuits.git?branch=feature/root-circuit#124d9cc02fb9746b24800a067cfa3c9231d40094"
 dependencies = [
  "eth-types",
  "ethers-core",
@@ -2241,29 +2209,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6ac9a59f73473f1b8d852421e59e64809f025994837ef743615c6d0c5b305160"
 
 [[package]]
-name = "plonk_verifier"
-version = "0.1.0"
-source = "git+https://github.com/privacy-scaling-explorations/plonk-verifier.git?rev=ba167b73ca09d77ab08958d4a4b4e0433222e4db#ba167b73ca09d77ab08958d4a4b4e0433222e4db"
-dependencies = [
- "bytes",
- "ecc 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_10_22)",
- "ethereum-types",
- "halo2_proofs 0.2.0",
- "halo2curves",
- "hex",
- "itertools",
- "lazy_static",
- "num-bigint",
- "num-integer",
- "num-traits",
- "poseidon",
- "rand",
- "revm",
- "rlp",
- "sha3 0.10.6",
-]
-
-[[package]]
 name = "poseidon"
 version = "0.2.0"
 source = "git+https://github.com/privacy-scaling-explorations/poseidon?tag=v2022_10_22#5d29df01a95e3df6334080d28e983407f56b5da3"
@@ -2285,10 +2230,22 @@ version = "0.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e28720988bff275df1f51b171e1b2a18c30d194c4d2b61defdacecd625a5d94a"
 dependencies = [
- "fixed-hash",
+ "fixed-hash 0.7.0",
  "impl-codec",
  "impl-rlp",
  "impl-serde",
+ "uint",
+]
+
+[[package]]
+name = "primitive-types"
+version = "0.12.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9f3486ccba82358b11a77516035647c34ba167dfa53312630de83b12bd4f3d66"
+dependencies = [
+ "fixed-hash 0.8.0",
+ "impl-codec",
+ "impl-rlp",
  "uint",
 ]
 
@@ -2342,20 +2299,22 @@ version = "0.1.0"
 dependencies = [
  "bus-mapping",
  "clap",
+ "ecc",
  "env_logger",
  "eth-types",
  "ethers-providers",
  "ethers-signers",
  "halo2_proofs 0.2.0",
+ "halo2curves",
  "hyper",
  "itertools",
  "log",
  "mock",
- "plonk_verifier",
  "rand",
  "rand_xorshift",
  "serde",
  "serde_json",
+ "snark-verifier",
  "strum",
  "tokio",
  "zkevm-circuits",
@@ -2513,16 +2472,16 @@ dependencies = [
 
 [[package]]
 name = "revm"
-version = "2.2.0"
+version = "2.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cf7259a494c33494fb23f087b36394acf4ac5e6d2dc30b2b8d6d98c314bc96c3"
+checksum = "73d84c8f9836efb0f5f5f8de4700a953c4e1f3119e5cfcb0aad8e5be73daf991"
 dependencies = [
  "arrayref",
  "auto_impl",
  "bytes",
- "hashbrown",
+ "hashbrown 0.13.1",
  "num_enum",
- "primitive-types",
+ "primitive-types 0.12.1",
  "revm_precompiles",
  "rlp",
  "sha3 0.10.6",
@@ -2530,15 +2489,15 @@ dependencies = [
 
 [[package]]
 name = "revm_precompiles"
-version = "1.1.1"
+version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "00e68901326fe20437526cb6d64a2898d2976383b7d222329dfce1717902da50"
+checksum = "0353d456ef3e989dc9190f42c6020f09bc2025930c37895826029304413204b5"
 dependencies = [
  "bytes",
- "hashbrown",
+ "hashbrown 0.13.1",
  "num",
  "once_cell",
- "primitive-types",
+ "primitive-types 0.12.1",
  "ripemd",
  "secp256k1",
  "sha2 0.10.6",
@@ -2944,6 +2903,29 @@ name = "smallvec"
 version = "1.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a507befe795404456341dfab10cef66ead4c041f62b8b11bbb92bffe5d0953e0"
+
+[[package]]
+name = "snark-verifier"
+version = "0.1.0"
+source = "git+https://github.com/privacy-scaling-explorations/snark-verifier?tag=v2022_12_23#dda742375cf87a268cba416b85a1d1b4e3383378"
+dependencies = [
+ "bytes",
+ "ecc",
+ "halo2_proofs 0.2.0",
+ "halo2curves",
+ "hex",
+ "itertools",
+ "lazy_static",
+ "num-bigint",
+ "num-integer",
+ "num-traits",
+ "poseidon",
+ "primitive-types 0.12.1",
+ "rand",
+ "revm",
+ "rlp",
+ "sha3 0.10.6",
+]
 
 [[package]]
 name = "socket2"
@@ -3625,11 +3607,11 @@ checksum = "c394b5bd0c6f669e7275d9c20aa90ae064cb22e75a1cad54e1b34088034b149f"
 [[package]]
 name = "zkevm-circuits"
 version = "0.1.0"
-source = "git+https://github.com/pinkiebell/zkevm-circuits.git?branch=zkevm-chain#3c6cd775d23b44322da4085b6065b2d70c246cfa"
+source = "git+https://github.com/smtmfft/zkevm-circuits.git?branch=feature/root-circuit#124d9cc02fb9746b24800a067cfa3c9231d40094"
 dependencies = [
  "array-init",
  "bus-mapping",
- "ecc 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_09_09)",
+ "ecc",
  "ecdsa 0.1.0",
  "env_logger",
  "eth-types",
@@ -3637,13 +3619,13 @@ dependencies = [
  "ethers-signers",
  "gadgets",
  "halo2_proofs 0.2.0",
- "integer 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_09_09)",
+ "integer",
  "itertools",
  "keccak256",
  "lazy_static",
  "libsecp256k1",
  "log",
- "maingate 0.1.0 (git+https://github.com/privacy-scaling-explorations/halo2wrong?tag=v2022_09_09)",
+ "maingate",
  "mock",
  "num",
  "num-bigint",
@@ -3651,6 +3633,7 @@ dependencies = [
  "rand_chacha",
  "rand_xorshift",
  "sha3 0.10.6",
+ "snark-verifier",
  "strum",
  "strum_macros",
  "subtle",
