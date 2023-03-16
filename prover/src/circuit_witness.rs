@@ -101,7 +101,7 @@ impl CircuitWitness {
             keccak_padding: Some(circuit_config.keccak_padding),
         };
         let builder = BuilderClient::new(l2_geth_client, circuit_params).await?;
-        let (builder, eth_block) = builder.gen_inputs(*block_num).await?;
+        let (builder, eth_block) = builder.gen_inputs(*block_num, Some(&txs_rlp)).await?;
 
         Ok(Self {
             circuit_config,
